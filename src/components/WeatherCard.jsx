@@ -60,7 +60,7 @@ function weatherCodeIcon(code) {
     return <CloudIcon sx={{ color: '#90a4ae', mr: 1 }} />;
 }
 
-export default function WeatherCard({ city, weather, loading, error }) {
+export default function WeatherCard({ city, weather, loading, error, onRefresh }) {
     return (
         <Card className="card-root" sx={{ minWidth: 280, maxWidth: 360 }}>
             <CardContent>
@@ -95,8 +95,8 @@ export default function WeatherCard({ city, weather, loading, error }) {
                 )}
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={() => window.location.reload()}>
-                    Refresh All
+                <Button size="small" onClick={onRefresh} disabled={loading}>
+                    Refresh
                 </Button>
             </CardActions>
         </Card>

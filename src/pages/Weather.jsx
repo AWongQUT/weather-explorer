@@ -34,14 +34,48 @@ function Weather() {
     const [error, setError] = useState(null);
     const [refreshCount, setRefreshCount] = useState(0);
 
+    const refreshCity = async (cityName) => {
+        setLocations((prev) =>
+            prev.map((item) =>
+                item.city === cityName ? { ...item, loading: true, error: null } : item
+            )
+        );
+
+        const city = cities.find((c) => c.name === cityName);
+        if (!city) return;
+
+        try {
+            const weather = await fetchCityWeather(city.latitude, city.longitude, city.timezone);
+            setLocations((prev) =>
+                prev.map((item) =>
+                    item.city === cityName
+                        ? { ...item, weather, error: null, loading: false }
+                        : item
+                )
+            );
+        } catch (err) {
+            setLocations((prev) =>
+                prev.map((item) =>
+                    item.city === cityName
+                        ? {
+                            ...item,
+                            error: err.message || 'Failed to load this city',
+                            loading: false,
+                        }
+                        : item
+                )
+            );
+        }
+    };
+
     useEffect(() => {
         let mounted = true;
 
         Promise.all(
             cities.map((city) =>
                 fetchCityWeather(city.latitude, city.longitude, city.timezone)
-                    .then((weather) => ({ city: city.name, weather }))
-                    .catch((err) => ({ city: city.name, error: err.message || 'Fetch error' }))
+                    .then((weather) => ({ city: city.name, weather, loading: false, error: null }))
+                    .catch((err) => ({ city: city.name, error: err.message || 'Fetch error', loading: false }))
             )
         )
             .then((results) => {
@@ -101,8 +135,9 @@ function Weather() {
                         key={item.city}
                         city={item.city}
                         weather={item.weather}
-                        loading={loading}
+                        loading={item.loading || false}
                         error={item.error}
+                        onRefresh={() => refreshCity(item.city)}
                     />
                 ))}
             </Box>
