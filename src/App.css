@@ -1,0 +1,67 @@
+:root {
+    --bg: #f4f6f8;
+    --text: #1f2937;
+    --text-muted: #575e71;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.home-page,
+.weather-page,
+.about-page {
+    padding: 24px;
+    min-height: 100vh;
+    background-color: var(--bg);
+}
+
+.hero {
+    max-width: 1200px;
+    margin: 0 auto 24px;
+    text-align: center;
+}
+
+.hero-title {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hero-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.feature-grid,
+.weather-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-center {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.loading-card,
+.error-card {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0;
+}
+
+.card-root {
+    padding: 8px;
+}
+
+.card-content-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+}

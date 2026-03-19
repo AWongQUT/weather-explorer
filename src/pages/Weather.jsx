@@ -65,24 +65,12 @@ function Weather() {
     }, [refreshCount]);
 
     return (
-        <Box sx={{ p: 2 }}>
-            <Typography variant="h4" sx={{ mb: 2, textAlign: 'center' }}>
+        <Box className="weather-page">
+            <Typography variant="h4" className="hero-title" sx={{ textAlign: 'center' }}>
                 Current Weather
             </Typography>
 
-            {loading && (
-                <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-                    <CircularProgress size={36} />
-                </Box>
-            )}
-
-            {error && (
-                <Typography color="error" sx={{ mb: 2, textAlign: 'center' }}>
-                    {error}
-                </Typography>
-            )}
-
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <Box className="section-center">
                 <Button
                     variant="contained"
                     onClick={() => {
@@ -94,6 +82,18 @@ function Weather() {
                     Refresh City Weather
                 </Button>
             </Box>
+
+            {loading && (
+                <Box className="loading-card">
+                    <CircularProgress size={36} />
+                </Box>
+            )}
+
+            {error && (
+                <Typography color="error" className="error-card">
+                    {error}
+                </Typography>
+            )}
 
             <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
                 {locations.map((item) => (

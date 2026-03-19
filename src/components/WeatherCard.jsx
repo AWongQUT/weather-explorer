@@ -62,9 +62,9 @@ function weatherCodeIcon(code) {
 
 export default function WeatherCard({ city, weather, loading, error }) {
     return (
-        <Card sx={{ minWidth: 280, maxWidth: 360, p: 1 }}>
+        <Card className="card-root" sx={{ minWidth: 280, maxWidth: 360 }}>
             <CardContent>
-                <Typography gutterBottom sx={{ fontWeight: 'bold', fontSize: 22 }}>
+                <Typography gutterBottom className="card-content-title" variant="h6">
                     {city}
                 </Typography>
 
