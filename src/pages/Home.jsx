@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -19,7 +20,7 @@ function Home() {
 				<Typography variant="h6" className="hero-subtitle">
 					Get up-to-date weather conditions for Brisbane, Sydney, and Melbourne with responsive cards and local timezone data.
 				</Typography>
-				<Button href="/weather" variant="contained" size="large">
+				<Button component={Link} to="/weather" variant="contained" size="large">
 					View Live Weather
 				</Button>
 			</Box>
