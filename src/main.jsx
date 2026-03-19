@@ -1,15 +1,20 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import { BrowserRouter } from 'react-router'
+import { BrowserRouter, HashRouter } from 'react-router'
 
-const isGitHubPages = window.location.pathname.startsWith('/weather-explorer')
-const basename = isGitHubPages ? '/weather-explorer' : '/'
+const isGitHubPages = window.location.hostname.includes('github.io')
 
 createRoot(document.getElementById('root')).render(
 	<StrictMode>
-		<BrowserRouter basename={basename}>
-			<App />
-		</BrowserRouter>
+		{isGitHubPages ? (
+			<HashRouter>
+				<App />
+			</HashRouter>
+		) : (
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
+		)}
 	</StrictMode>,
 )
