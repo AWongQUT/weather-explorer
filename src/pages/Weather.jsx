@@ -95,7 +95,7 @@ function Weather() {
                 </Typography>
             )}
 
-            <Box sx={{ display: 'grid', gap: 2, gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            <Box className="weather-grid">
                 {locations.map((item) => (
                     <WeatherCard
                         key={item.city}
