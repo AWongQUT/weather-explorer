@@ -10,7 +10,6 @@ import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import CloudIcon from '@mui/icons-material/Cloud';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import GrainIcon from '@mui/icons-material/Grain';
-import AcUnitIcon from '@mui/icons-material/AcUnit';
 import FoggyIcon from '@mui/icons-material/BlurOn';
 
 function weatherCodeText(code) {
@@ -60,7 +59,7 @@ function weatherCodeIcon(code) {
     return <CloudIcon sx={{ color: '#90a4ae', mr: 1 }} />;
 }
 
-export default function WeatherCard({ city, weather, loading, error, onRefresh }) {
+export default function WeatherCard({ city, weather, timezone, loading, error, onRefresh }) {
     return (
         <Card className="card-root" sx={{ minWidth: 280, maxWidth: 360 }}>
             <CardContent>
@@ -90,7 +89,14 @@ export default function WeatherCard({ city, weather, loading, error, onRefresh }
                         </Typography>
                         <Typography variant="body2">Wind: {weather.windspeed} km/h</Typography>
                         <Typography variant="body2">Direction: {weather.winddirection}°</Typography>
-                        <Typography variant="body2">Time: {weather.time}</Typography>
+                        <Typography variant="body2">
+                            Last updated: {new Date(weather.time + "Z").toLocaleString("en-AU", {
+                                day: "2-digit", month: "long", year: "numeric",
+                                hour: "2-digit", minute: "2-digit",
+                                timeZone: timezone,
+                                timeZoneName: "short",
+                            })}
+                        </Typography>
                     </Box>
                 )}
             </CardContent>

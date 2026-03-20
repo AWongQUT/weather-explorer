@@ -12,8 +12,7 @@ const cities = [
 ];
 
 async function fetchCityWeather(latitude, longitude, timezone) {
-    const tz = timezone ? encodeURIComponent(timezone) : 'Australia%2FBrisbane';
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&timezone=${tz}`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&timezone=UTC`;
     const res = await fetch(url);
 
     if (!res.ok) {
@@ -32,6 +31,8 @@ function Weather() {
     const [locations, setLocations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    // useEffect re-runs whenever its dependency array values change.
+    // refreshCount has no other purpose — changing it forces a fresh fetch of all cities.
     const [refreshCount, setRefreshCount] = useState(0);
 
     const refreshCity = async (cityName) => {
@@ -69,13 +70,14 @@ function Weather() {
     };
 
     useEffect(() => {
+        // Prevents state updates if the component is removed from the page mid-fetch
         let mounted = true;
 
         Promise.all(
             cities.map((city) =>
                 fetchCityWeather(city.latitude, city.longitude, city.timezone)
-                    .then((weather) => ({ city: city.name, weather, loading: false, error: null }))
-                    .catch((err) => ({ city: city.name, error: err.message || 'Fetch error', loading: false }))
+                    .then((weather) => ({ city: city.name, timezone: city.timezone, weather, loading: false, error: null }))
+                    .catch((err) => ({ city: city.name, timezone: city.timezone, error: err.message || 'Fetch error', loading: false }))
             )
         )
             .then((results) => {
@@ -94,6 +96,7 @@ function Weather() {
             });
 
         return () => {
+            // Cleanup: tells the above check to stop any pending state updates
             mounted = false;
         };
     }, [refreshCount]);
@@ -135,6 +138,7 @@ function Weather() {
                         key={item.city}
                         city={item.city}
                         weather={item.weather}
+                        timezone={item.timezone}
                         loading={item.loading || false}
                         error={item.error}
                         onRefresh={() => refreshCity(item.city)}
